@@ -1,0 +1,1 @@
+head -n 10000 /dev/urandom | base64 > file-from-server.txt

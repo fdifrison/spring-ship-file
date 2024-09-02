@@ -9,6 +9,5 @@
     </parent>
 
     <artifactId>sdk</artifactId>
-    <packaging>jar</packaging>
 
 </project>

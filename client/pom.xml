@@ -11,4 +11,11 @@
     <artifactId>client</artifactId>
     <packaging>jar</packaging>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.fdifrison</groupId>
+            <artifactId>sdk</artifactId>
+        </dependency>
+    </dependencies>
+
 </project>
