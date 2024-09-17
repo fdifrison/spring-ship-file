@@ -1,20 +1,29 @@
-package com.fdifrison.client;
+package com.fdifrison.sdk.autoconfiguration;
 
 import com.fdifrison.sdk.ShippingExchange;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.support.RestClientAdapter;
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
-@Configuration
-public class ClientConfig {
+
+@AutoConfiguration
+@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
+@ConditionalOnProperty("sdk.client.url")
+public class ClientAutoConfiguration {
 
     @Bean
-    public ShippingExchange shippingExchange(@Value("${server.url}") String url, RestClient.Builder clientBuilder) {
+    @ConditionalOnMissingBean
+    public ShippingExchange shippingExchange(@Value("${sdk.client.url}") String url,
+                                             RestClient.Builder clientBuilder) {
         return buildExchange(url, clientBuilder, ShippingExchange.class);
     }
+
 
     private <E> E buildExchange(String baseurl, RestClient.Builder restClientBuilder, Class<E> clazz) {
         var restClient = restClientBuilder.baseUrl(baseurl).build();
