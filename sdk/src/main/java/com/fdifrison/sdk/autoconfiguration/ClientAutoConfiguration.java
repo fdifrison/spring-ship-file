@@ -11,7 +11,6 @@ import org.springframework.web.client.RestClient;
 import org.springframework.web.client.support.RestClientAdapter;
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
-
 @AutoConfiguration
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @ConditionalOnProperty("sdk.client.url")
@@ -19,11 +18,9 @@ public class ClientAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public ShippingExchange shippingExchange(@Value("${sdk.client.url}") String url,
-                                             RestClient.Builder clientBuilder) {
+    public ShippingExchange shippingExchange(@Value("${sdk.client.url}") String url, RestClient.Builder clientBuilder) {
         return buildExchange(url, clientBuilder, ShippingExchange.class);
     }
-
 
     private <E> E buildExchange(String baseurl, RestClient.Builder restClientBuilder, Class<E> clazz) {
         var restClient = restClientBuilder.baseUrl(baseurl).build();
@@ -31,5 +28,4 @@ public class ClientAutoConfiguration {
         var factory = HttpServiceProxyFactory.builderFor(adapter).build();
         return factory.createClient(clazz);
     }
-
 }
